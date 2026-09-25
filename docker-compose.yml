@@ -1,0 +1,80 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: talent-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    volumes:
+      - talent_mysql_data:/var/lib/mysql
+
+    networks:
+      - talent-network
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/dockerfile
+
+    container_name: talent-backend
+    restart: unless-stopped
+
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: mysql
+      DB_PORT: 3306
+
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+      ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    ports:
+      - "8085:8085"
+
+    networks:
+      - talent-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: talent-frontend
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "8086:80"
+
+    networks:
+      - talent-network
+
+volumes:
+  talent_mysql_data:
+
+networks:
+  talent-network:
+    driver: bridge

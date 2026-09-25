@@ -4,11 +4,13 @@ export const submitSchoolResultSubmission = (id) => api.post(`/school-result-sub
 export const reopenSchoolResultSubmission = (id) => api.post(`/school-result-submissions/${id}/reopen/`);
 import axios from 'axios';
 
-const API_HOST = import.meta.env.VITE_API_URL
-  || `${window.location.protocol}//${window.location.hostname}:8000`;
+// ==================== API SERVICE automatically configured for both development and production ====================
+const API_HOST =
+  import.meta.env.VITE_API_URL ||
+  window.location.origin;
+
 const API_BASE_URL = `${API_HOST}/api`;
 
-// Create axios instance with default config
 const api = axios.create({
   baseURL: API_BASE_URL,
 });

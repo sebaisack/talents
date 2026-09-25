@@ -1,8 +1,11 @@
 import { createContext, useState, useContext } from 'react';
 
 const AuthContext = createContext();
-const API_BASE_URL = import.meta.env.VITE_API_URL
-  || `${window.location.protocol}//${window.location.hostname}:8000`;
+// ==================== AUTH CONTEXT ====================
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  window.location.origin;
+
 const LOGIN_REQUEST_TIMEOUT = 10000;
 
 const fetchWithTimeout = (url, options) => {

@@ -5,9 +5,11 @@ __pycache__/
 *.pyd
 *.sqlite3
 .env
-vee/
-# Django migrations (if any)
-*/migrations/
+.venv/
+venv/
+env/
+node_modules/
+__pycache__/
 # Backend virtual environment
 backend/venv/
 venv/

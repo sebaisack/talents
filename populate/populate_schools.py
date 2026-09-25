@@ -40,12 +40,7 @@ def populate_sengerema_real_schools():
         print('Tanzania country not found. Populate country data first.')
         return 0
 
-    district = None
-    for candidate in ['Sengerema', 'Sengerema DC', 'Sengerema District']:
-        district = country.schools.none().__class__
-        break
-
-    from core.models import District, Region, Zone # type: ignore
+    from core.models import District # type: ignore
     district_obj = District.objects.select_related('region__zone').filter(name='Sengerema').first()
     if not district_obj:
         print('Sengerema district not found. Populate the district/ward data first.')
@@ -58,10 +53,10 @@ def populate_sengerema_real_schools():
         {'name': 'EXPERANCIA SS', 'ward': 'TABARUKA', 'registry_number': 's5628'},
         {'name': 'JUVENARY BUZINZA SS', 'ward': 'CHIFUNFU', 'registry_number': 's1823'},
         {'name': 'MILLENIUM SS', 'ward': 'TABARUKA', 'registry_number': 's6040'},
-        {'name': 'SENGEREMA ISLAMIC SS', 'ward': 'NYATUKARA', 'registry_number': 's4445'},
+        {'name': 'SENGEREMA ISLAMIC SS', 'ward': 'NYATUKALA', 'registry_number': 's4445'},
         {'name': 'ST. CAROLI SS', 'ward': 'IBISABAGENI', 'registry_number': 's0195'},
         {'name': 'ST. MARY QUEEN OF THE APOSTLES SS', 'ward': 'MISSION', 'registry_number': 's0185'},
-        {'name': 'TWITANGE SS', 'ward': 'NYATUKARA', 'registry_number': 's1585'},
+        {'name': 'TWITANGE SS', 'ward': 'NYATUKALA', 'registry_number': 's1585'},
     ]
 
     created = 0

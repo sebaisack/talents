@@ -48,3 +48,9 @@ python manage.py runserver
 ## Notes
 
 The repository includes a working Django API and a separate React frontend application. The backend documentation reflects the actual implementation in the codebase, including the permission model, router registration, and model relationships currently present in the project.
+
+## Production deployment and initial data
+
+The backend container applies Django migrations and runs `manage.py seed_initial_data` before starting Gunicorn. The command seeds school ownership types, talent categories, Tanzania's zone/region/district/ward hierarchy, country clubs, and the real Sengerema school records. It is safe to run again when the container restarts.
+
+The `populate/sample.py`, `populate/tempdata.py`, `backend/students/populate_students.py`, and `populate/createtalentadmin.py` scripts are not run during production startup. They create demo accounts/data or use a fixed password and should not be seeded into a live database. Django data migrations continue to run as part of `migrate`.
